@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Instructors</h2>
+  <table border="1" cellpadding="10" cellspacing="0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let instructor of instructors">
+        <td>{{ instructor.id }}</td>
+        <td>{{ instructor.Instructor }}</td>
+        <td>
+          <button (click)="deleteInstructor(instructor.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

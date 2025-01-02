@@ -1,0 +1,81 @@
+/* Overall container styling */
+.delete-instructor-container {
+  margin: 20px;
+  font-family: 'Balsamiq Sans', cursive;
+  background-color: #C2DBC6; /* Light green background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #263339; /* Dark green text */
+}
+
+h1 {
+  text-align: center;
+  color: #263339;
+  font-family: 'Balsamiq Sans', cursive;
+  font-weight: bold;
+  margin-bottom: 20px;
+  background-color: #C1DBC6;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #A4C6AC; /* Medium green */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th {
+  padding: 15px;
+  text-align: left;
+  background-color: #263339; /* Dark green header */
+  color: #C2DBC6; /* Light green text */
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 15px;
+  text-align: left;
+  font-size: 14px;
+  color: #263339; /* Dark green text */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #C2DBC6; /* Light green */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #A4C6AC; /* Medium green */
+}
+
+/* Buttons inside the table */
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.btn-delete {
+  background-color: #C1DBC6; 
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #C1DBC6;
+}
+
+/* Confirmation message styling */
+.confirmation {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #263339;
+  font-weight: bold;
+}

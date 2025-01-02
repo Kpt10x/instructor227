@@ -1,0 +1,27 @@
+<div class="view-availability-container">
+    <h1>SkillHive View Instructors by Availability</h1>
+    <div class="filters">
+      <label for="start-date">Start Date:</label>
+      <input id="start-date" type="date" [(ngModel)]="availabilityFilter.startDate" />
+      
+      <label for="end-date">End Date:</label>
+      <input id="end-date" type="date" [(ngModel)]="availabilityFilter.endDate" />
+      
+      <button (click)="filterByAvailability()">Filter</button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Instructor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let instructor of filteredInstructors">
+          <td>{{ instructor.id }}</td>
+          <td>{{ instructor.Instructor }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
