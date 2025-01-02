@@ -15,48 +15,64 @@ h1 {
   font-weight: bold;
 }
 
-/* Filter container */
+/* Filter Container */
 .filter-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  gap: 10px;
+  gap: 15px; /* Increased gap for better spacing */
 }
 
+/* Labels for Inputs/Selects */
 .filter-container label {
   font-size: 14px;
-  color: #263339;
+  font-weight: bold;
+  color: #263339; /* Dark green text */
 }
 
+/* Inputs and Dropdowns */
 .filter-container input,
 .filter-container select {
-  padding: 10px;
-  border: 1px solid #A4C6AC;
-  border-radius: 5px;
-  font-size: 14px;
-  background-color: #FAFFFB; /* Light background */
-  color: #236669;
+  padding: 12px; /* Slightly larger padding for modern look */
+  border: 2px solid #A4C6AC; /* Medium green border */
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #C2DBC6; /* Soft light background */
+  color: #263339; /* Dark green text */
   width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.filter-container input:focus,
+.filter-container select:focus {
+  border-color: #236669; /* Highlighted green */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+/* Buttons */
 .filter-container button {
-  padding: 10px 20px;
+  padding: 12px 18px; /* Larger padding for better button presence */
   border: none;
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
-  background-color: #236669; /* Dark green */
-  color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #236669; /* Dark green button */
+  color: #fff; /* White text */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Softer shadow */
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .filter-container button:hover {
-  background-color: #A4C6AC;
-  color: #236669;
+  background-color: #A4C6AC; /* Medium green */
+  color: #236669; /* Dark green text */
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 
 /* Table styling */
 table {

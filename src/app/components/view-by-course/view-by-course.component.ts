@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
 
 @Component({
   selector: 'app-view-by-course',
-  standalone:true,
+  standalone: true,
   templateUrl: './view-by-course.component.html',
   styleUrls: ['./view-by-course.component.css'],
-  imports:[FormsModule,CommonModule, HttpClientModule]
+  imports: [FormsModule, CommonModule, HttpClientModule],
 })
 export class ViewByCourseComponent implements OnInit {
   instructors: any[] = [];
@@ -22,14 +22,18 @@ export class ViewByCourseComponent implements OnInit {
     this.http.get<any[]>('assets/data/instructors.json').subscribe((data) => {
       this.instructors = data;
       this.filteredInstructors = data;
-      this.courses = [...new Set(data.map((instructor) => instructor.subject))];
+
+      // Collect unique courses (trim spaces to avoid mismatches)
+      this.courses = [
+        ...new Set(data.map((instructor) => instructor.course.trim())),
+      ];
     });
   }
 
   filterByCourse(): void {
     if (this.selectedCourse) {
       this.filteredInstructors = this.instructors.filter(
-        (instructor) => instructor.subject === this.selectedCourse
+        (instructor) => instructor.course.trim() === this.selectedCourse
       );
     } else {
       this.filteredInstructors = this.instructors;
