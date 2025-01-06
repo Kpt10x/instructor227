@@ -20,15 +20,30 @@ export class DeleteInstructorComponent implements OnInit {
   }
 
   loadInstructors(): void {
-    this.http.get<any[]>('assets/data/instructors.json').subscribe((data) => {
+    this.http.get<any[]>('http://localhost:3000/instructors').subscribe((data) => {
       this.instructors = data;
     });
   }
 
-  deleteInstructor(id: number): void {
-    if (confirm('Are you sure you want to delete this instructor?')) {
-      this.instructors = this.instructors.filter((instructor) => instructor.id !== id);
-      alert('Instructor deleted successfully!');
-    }
+  //deleteInstructor(id: number): void {
+   // if (confirm('Are you sure you want to delete this instructor?')) {
+    // this.instructors = this.instructors.filter((instructor) => instructor.id !== id);
+    //  alert('Instructor deleted successfully!');
+ //  }
+ // }
+ deleteInstructor(id: number): void {
+  if (confirm('Are you sure you want to delete this instructor?')) {
+    this.http.delete(`http://localhost:3000/instructors/${id}`).subscribe({
+      next: () => {
+        this.instructors = this.instructors.filter((instructor) => instructor.id !== id);
+        alert('Instructor deleted successfully!');
+      },
+      error: (err) => {
+        console.error('Error deleting instructor:', err);
+        alert('Failed to delete the instructor. Please try again.');
+      },
+    });
   }
+}
+ 
 }

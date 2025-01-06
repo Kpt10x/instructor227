@@ -125,10 +125,12 @@
       "experience": 9
     },
     {
-      "id": "5093",
-      "name": "Krishna Prasad Tripathy",
-      "email": "talok625@yahoo.com",
-      "phone": "5304814373"
+      "id": "11",
+      "name": "Rohini Seth",
+      "email": "rseth@gmail.com",
+      "phone": "1237894568",
+      "Area_of_Expertise": "Python",
+      "experience": 2
     }
   ],
   "candidates": [],

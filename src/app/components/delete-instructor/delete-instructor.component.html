@@ -11,7 +11,8 @@
     <tbody>
       <tr *ngFor="let instructor of instructors">
         <td>{{ instructor.id }}</td>
-        <td>{{ instructor.Instructor }}</td>
+        <td>{{ instructor.name }}</td>
+      
         <td>
           <button (click)="deleteInstructor(instructor.id)">Delete</button>
         </td>

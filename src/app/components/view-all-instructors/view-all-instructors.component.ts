@@ -52,6 +52,9 @@ export class ViewAllInstructorsComponent implements OnInit {
         instructor.phone.includes(query)
       );
     });
+    if (this.filteredInstructors.length === 0) {
+      alert('No instructors found matching your search criteria');
+    }
   }
 
   /**

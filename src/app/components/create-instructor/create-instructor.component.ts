@@ -20,7 +20,7 @@ export class CreateInstructorComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      subject: ['', Validators.required],
+      Area_of_Expertise: ['', Validators.required],
       experience: ['', [Validators.required, Validators.min(1)]],
     });
   }
@@ -34,21 +34,40 @@ export class CreateInstructorComponent implements OnInit {
    */
   onSubmit(): void {
     if (this.createInstructorForm.valid) {
-      const formData = this.createInstructorForm.value;
+      // Fetch the existing instructors to determine the next ID
+      this.http.get<any[]>(this.apiUrl).subscribe(
+        (existingInstructors) => {
+          // Determine the next sequential ID
+          const nextId = existingInstructors.length > 0
+            ? Math.max(...existingInstructors.map((i) => parseInt(i.id, 10))) + 1
+            : 1;
 
-      // Save the instructor to the backend
-      this.http.post(this.apiUrl, formData).subscribe(
-        (response) => {
-          alert('Instructor added successfully!');
-          this.createInstructorForm.reset(); // Reset form after successful submission
+          // Add the generated ID to the form data
+          const newInstructor = {
+            id: nextId.toString(), // Ensure ID is a string if needed
+            ...this.createInstructorForm.value,
+          };
+
+          // Save the new instructor to the backend
+          this.http.post(this.apiUrl, newInstructor).subscribe(
+            () => {
+              alert('Instructor added successfully!');
+              this.createInstructorForm.reset(); // Reset form after successful submission
+            },
+            (error) => {
+              console.error('Error adding instructor:', error);
+              alert('Failed to add instructor.');
+            }
+          );
         },
         (error) => {
-          console.error('Error adding instructor:', error);
-          alert('Failed to add instructor.');
+          console.error('Error fetching instructors:', error);
+          alert('Failed to fetch existing instructors.');
         }
       );
     } else {
-      console.log('Form is invalid');
+      alert('Form is invalid!');
     }
   }
-}
+  }
+
