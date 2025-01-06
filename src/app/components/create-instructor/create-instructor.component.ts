@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-instructor',
-  standalone: true,
-  imports: [HttpClientModule, ReactiveFormsModule, CommonModule],
+  standalone:true,
+  imports: [CommonModule,HttpClientModule,ReactiveFormsModule],
   templateUrl: './create-instructor.component.html',
-  styleUrls: ['./create-instructor.component.css'],
+  styleUrls: ['./create-instructor.component.css']
 })
 export class CreateInstructorComponent implements OnInit {
-  createInstructorForm: FormGroup; // Form group for managing the instructor form
-  apiUrl = 'http://localhost:3000/instructors'; // JSON server API endpoint
+  createInstructorForm: FormGroup;
+  instructorsApiUrl = 'http://localhost:3000/instructors';
+  profilesApiUrl = 'http://localhost:3000/profiles';
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
-    // Initialize the reactive form with validators
     this.createInstructorForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -25,34 +25,29 @@ export class CreateInstructorComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // Placeholder for additional initialization if needed
-  }
+  ngOnInit(): void {}
 
-  /**
-   * Handles form submission for adding instructors
-   */
   onSubmit(): void {
     if (this.createInstructorForm.valid) {
-      // Fetch the existing instructors to determine the next ID
-      this.http.get<any[]>(this.apiUrl).subscribe(
+      this.http.get<any[]>(this.instructorsApiUrl).subscribe(
         (existingInstructors) => {
-          // Determine the next sequential ID
           const nextId = existingInstructors.length > 0
             ? Math.max(...existingInstructors.map((i) => parseInt(i.id, 10))) + 1
             : 1;
 
-          // Add the generated ID to the form data
+          const defaultPassword = this.generateRandomPassword();
+
           const newInstructor = {
-            id: nextId.toString(), // Ensure ID is a string if needed
+            id: nextId.toString(),
             ...this.createInstructorForm.value,
+            default_password: defaultPassword
           };
 
-          // Save the new instructor to the backend
-          this.http.post(this.apiUrl, newInstructor).subscribe(
+          this.http.post(this.instructorsApiUrl, newInstructor).subscribe(
             () => {
+              this.addToProfile(nextId.toString(), newInstructor.email, defaultPassword);
               alert('Instructor added successfully!');
-              this.createInstructorForm.reset(); // Reset form after successful submission
+              this.createInstructorForm.reset();
             },
             (error) => {
               console.error('Error adding instructor:', error);
@@ -69,5 +64,25 @@ export class CreateInstructorComponent implements OnInit {
       alert('Form is invalid!');
     }
   }
+
+  private generateRandomPassword(): string {
+    const length = 8;
+    const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return password;
   }
 
+  private addToProfile(id: string, email: string, password: string): void {
+    const profileData = { id, email, default_password: password };
+    this.http.get<any[]>(this.profilesApiUrl).subscribe((profiles) => {
+      const updatedProfiles = [...profiles, profileData];
+      this.http.put(this.profilesApiUrl, updatedProfiles).subscribe(
+        () => console.log('Profile updated successfully.'),
+        (error) => console.error('Error updating profile:', error)
+      );
+    });
+  }
+}

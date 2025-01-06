@@ -131,6 +131,15 @@
       "phone": "1237894568",
       "Area_of_Expertise": "Python",
       "experience": 2
+    },
+    {
+      "id": "12",
+      "name": "Krishna Prasad Tripathy",
+      "email": "harikrishnaarvapalli2@gmail.com",
+      "phone": "6304814373",
+      "Area_of_Expertise": "Angular",
+      "experience": 45,
+      "default_password": "VvSbbujf"
     }
   ],
   "candidates": [],
@@ -215,6 +224,63 @@
       "endDate": "2025-02-22",
       "assignmentDate": "2025-03-01",
       "id": "6ea7"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "1",
+      "instructorId": "1",
+      "assignedCourses": [
+        {
+          "courseId": "1233333",
+          "startDate": "2024-01-01",
+          "endDate": "2024-05-01"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "instructorId": "2",
+      "assignedCourses": [
+        {
+          "courseId": "4321",
+          "startDate": "2024-12-21",
+          "endDate": "2025-02-23"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "instructorId": "3",
+      "assignedCourses": [
+        {
+          "courseId": "123444",
+          "startDate": "2024-12-19",
+          "endDate": "2025-02-19"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "instructorId": "6",
+      "assignedCourses": [
+        {
+          "courseId": "2234444",
+          "startDate": "2024-02-01",
+          "endDate": "2024-08-01"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "instructorId": "7",
+      "assignedCourses": [
+        {
+          "courseId": "3235555",
+          "startDate": "2024-03-01",
+          "endDate": "2024-06-01"
+        }
+      ]
     }
   ]
 }
