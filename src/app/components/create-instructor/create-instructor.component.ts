@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-instructor',
-  standalone:true,
-  imports: [CommonModule,HttpClientModule,ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, HttpClientModule, ReactiveFormsModule],
   templateUrl: './create-instructor.component.html',
   styleUrls: ['./create-instructor.component.css']
 })
@@ -29,40 +29,43 @@ export class CreateInstructorComponent implements OnInit {
 
   onSubmit(): void {
     if (this.createInstructorForm.valid) {
-      this.http.get<any[]>(this.instructorsApiUrl).subscribe(
-        (existingInstructors) => {
-          const nextId = existingInstructors.length > 0
-            ? Math.max(...existingInstructors.map((i) => parseInt(i.id, 10))) + 1
-            : 1;
+      if (confirm('Are you sure you want to create this instructor?')) {
+        this.http.get<any[]>(this.instructorsApiUrl).subscribe(
+          () => {
+            const id = this.generateRandomId();
+            const defaultPassword = this.generateRandomPassword();
 
-          const defaultPassword = this.generateRandomPassword();
+            const newInstructor = {
+              id: id.toString(),
+              ...this.createInstructorForm.value
+            };
 
-          const newInstructor = {
-            id: nextId.toString(),
-            ...this.createInstructorForm.value,
-            default_password: defaultPassword
-          };
-
-          this.http.post(this.instructorsApiUrl, newInstructor).subscribe(
-            () => {
-              this.addToProfile(nextId.toString(), newInstructor.email, defaultPassword);
-              alert('Instructor added successfully!');
-              this.createInstructorForm.reset();
-            },
-            (error) => {
-              console.error('Error adding instructor:', error);
-              alert('Failed to add instructor.');
-            }
-          );
-        },
-        (error) => {
-          console.error('Error fetching instructors:', error);
-          alert('Failed to fetch existing instructors.');
-        }
-      );
+            this.http.post(this.instructorsApiUrl, newInstructor).subscribe(
+              () => {
+                this.addToProfile(id.toString(), newInstructor.name, newInstructor.email, defaultPassword);
+                alert('Instructor added successfully!');
+                this.createInstructorForm.reset();
+              },
+              (error) => {
+                console.error('Error adding instructor:', error);
+                alert('Failed to add instructor.');
+              }
+            );
+          },
+          (error) => {
+            console.error('Error fetching instructors:', error);
+            alert('Failed to fetch existing instructors.');
+          }
+        );
+      }
     } else {
-      alert('Form is invalid!');
+      this.createInstructorForm.markAllAsTouched(); // Highlight validation messages
+      alert('Please fill out the form correctly.');
     }
+  }
+
+  private generateRandomId(): number {
+    return Math.floor(10000 + Math.random() * 90000); // 5-digit random number
   }
 
   private generateRandomPassword(): string {
@@ -75,11 +78,21 @@ export class CreateInstructorComponent implements OnInit {
     return password;
   }
 
-  private addToProfile(id: string, email: string, password: string): void {
-    const profileData = { id, email, default_password: password };
-    this.http.get<any[]>(this.profilesApiUrl).subscribe((profiles) => {
-      const updatedProfiles = [...profiles, profileData];
-      this.http.put(this.profilesApiUrl, updatedProfiles).subscribe(
+  private addToProfile(id: string, name: string, email: string, password: string): void {
+    this.http.get<any>(this.profilesApiUrl).subscribe((profileData) => {
+      const instructorProfile = {
+        id,
+        name,
+        email,
+        default_password: password
+      };
+
+      if (!profileData.instructors) {
+        profileData.instructors = [];
+      }
+      profileData.instructors.push(instructorProfile);
+
+      this.http.put(this.profilesApiUrl, profileData).subscribe(
         () => console.log('Profile updated successfully.'),
         (error) => console.error('Error updating profile:', error)
       );
