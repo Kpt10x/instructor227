@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateInstructorComponent implements OnInit {
   createInstructorForm: FormGroup;
-  instructorsApiUrl = 'http://localhost:3000/instructors';
   profilesApiUrl = 'http://localhost:3000/profiles';
 
   constructor(private fb: FormBuilder, private http: HttpClient) {
@@ -30,31 +29,24 @@ export class CreateInstructorComponent implements OnInit {
   onSubmit(): void {
     if (this.createInstructorForm.valid) {
       if (confirm('Are you sure you want to create this instructor?')) {
-        this.http.get<any[]>(this.instructorsApiUrl).subscribe(
+        const id = this.generateRandomId();
+        const defaultPassword = this.generateRandomPassword();
+
+        const newInstructor = {
+          id: id.toString(),
+          ...this.createInstructorForm.value,
+          role: 'instructor',
+          default_password: defaultPassword
+        };
+
+        this.http.post(this.profilesApiUrl, newInstructor).subscribe(
           () => {
-            const id = this.generateRandomId();
-            const defaultPassword = this.generateRandomPassword();
-
-            const newInstructor = {
-              id: id.toString(),
-              ...this.createInstructorForm.value
-            };
-
-            this.http.post(this.instructorsApiUrl, newInstructor).subscribe(
-              () => {
-                this.addToProfile(id.toString(), newInstructor.name, newInstructor.email, defaultPassword);
-                alert('Instructor added successfully!');
-                this.createInstructorForm.reset();
-              },
-              (error) => {
-                console.error('Error adding instructor:', error);
-                alert('Failed to add instructor.');
-              }
-            );
+            alert('Instructor added successfully!');
+            this.createInstructorForm.reset();
           },
           (error) => {
-            console.error('Error fetching instructors:', error);
-            alert('Failed to fetch existing instructors.');
+            console.error('Error adding instructor:', error);
+            alert('Failed to add instructor.');
           }
         );
       }
@@ -76,26 +68,5 @@ export class CreateInstructorComponent implements OnInit {
       password += charset.charAt(Math.floor(Math.random() * charset.length));
     }
     return password;
-  }
-
-  private addToProfile(id: string, name: string, email: string, password: string): void {
-    this.http.get<any>(this.profilesApiUrl).subscribe((profileData) => {
-      const instructorProfile = {
-        id,
-        name,
-        email,
-        default_password: password
-      };
-
-      if (!profileData.instructors) {
-        profileData.instructors = [];
-      }
-      profileData.instructors.push(instructorProfile);
-
-      this.http.put(this.profilesApiUrl, profileData).subscribe(
-        () => console.log('Profile updated successfully.'),
-        (error) => console.error('Error updating profile:', error)
-      );
-    });
   }
 }

@@ -43,64 +43,6 @@
       "role": "admin"
     }
   ],
-  "instructors": [
-    {
-      "id": "95133",
-      "name": "Sujatha Sharma",
-      "email": "sujatha45@gmail.com",
-      "phone": "9847012389",
-      "Area_of_Expertise": "Web Development",
-      "experience": 2
-    },
-    {
-      "id": "80471",
-      "name": "Supriya Reddy",
-      "email": "supriya23@gmal.com",
-      "phone": "6574598371",
-      "Area_of_Expertise": "Data Science",
-      "experience": 5
-    },
-    {
-      "id": "30371",
-      "name": "Sowjanya Mekala",
-      "email": "sowjanya56@gmail.com",
-      "phone": "6574598372",
-      "Area_of_Expertise": "Graphic Design",
-      "experience": 6
-    },
-    {
-      "id": "57344",
-      "name": "Priya Reddy",
-      "email": "priya78@gmail.com",
-      "phone": "6574598373",
-      "Area_of_Expertise": "Mongo Db",
-      "experience": 6
-    },
-    {
-      "id": "57523",
-      "name": "Anusha Reddy",
-      "email": "anusha36@gmail.com",
-      "phone": "6574598374",
-      "Area_of_Expertise": "AI",
-      "experience": 7
-    },
-    {
-      "id": "58675",
-      "name": "Rupa Sharma",
-      "email": "rupa789@gmail.com",
-      "phone": "6574598375",
-      "Area_of_Expertise": "Web Development",
-      "experience": 3
-    },
-    {
-      "id": "86543",
-      "name": "Anushka Sharma",
-      "email": "anushka45@gmail.com",
-      "phone": "6574598379",
-      "Area_of_Expertise": "Web Development",
-      "experience": 5
-    }
-  ],
   "candidates": [],
   "courses": [
     {
@@ -178,51 +120,26 @@
       "id": "6ea7"
     }
   ],
-  "profiles": {
-    "admin": [],
-    "instructors": [
-      {
-        "id": "95133",
-        "name": "Sujatha Sharma",
-        "email": "sujatha45@gmail.com",
-        "default_password": "KwKzEtQy"
-      },
-      {
-        "id": "80471",
-        "name": "Supriya Reddy",
-        "email": "supriya23@gmal.com",
-        "default_password": "TbKHTcbX"
-      },
-      {
-        "id": "30371",
-        "name": "Sowjanya Mekala",
-        "email": "sowjanya56@gmail.com",
-        "default_password": "SIJUdVaN"
-      },
-      {
-        "id": "57344",
-        "name": "Priya Reddy",
-        "email": "priya78@gmail.com",
-        "default_password": "CbqUYDAb"
-      },
-      {
-        "id": "57523",
-        "name": "Anusha Reddy",
-        "email": "anusha36@gmail.com",
-        "default_password": "WQjfEClN"
-      },
-      {
-        "id": "58675",
-        "name": "Rupa Sharma",
-        "email": "rupa789@gmail.com",
-        "default_password": "Bs4aIImf"
-      },
-      {
-        "id": "86543",
-        "name": "Anushka Sharma",
-        "email": "anushka45@gmail.com",
-        "default_password": "KzL7RWKc"
-      }
-    ]
-  }
+  "profiles": [
+    {
+      "id": "95133",
+      "name": "Sujatha Sharma",
+      "email": "sujatha45@gmail.com",
+      "phone": "1234567890",
+      "Area_of_Expertise": "Angular",
+      "Experience": "10",
+      "role": "instructor",
+      "default_password": "KwKzEtQy"
+    },
+    {
+      "id": "66534",
+      "name": "Saleem",
+      "email": "saleem@gmail.com",
+      "phone": "8769376846",
+      "Area_of_Expertise": "Data Science",
+      "experience": 4,
+      "role": "instructor",
+      "default_password": "VBmKmAly"
+    }
+  ]
 }

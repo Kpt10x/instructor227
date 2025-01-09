@@ -1,29 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';  // Import ReactiveFormsModule here
-import { AppRoutingModule } from './app-routing.module'; // Make sure to import AppRoutingModule
+import { ReactiveFormsModule } from '@angular/forms';  // Import ReactiveFormsModule
+import { AppRoutingModule } from './app-routing.module'; // Import AppRoutingModule
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {  provideHttpClient, withFetch } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component'; // Import AppComponent
 
 @NgModule({
   declarations: [
-    
-    DashboardComponent, 
+    // Ensure AppComponent is declared
+    DashboardComponent, // Declare DashboardComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    AppRoutingModule ,
-    SidebarComponent,
+    AppRoutingModule,
     FontAwesomeModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    SidebarComponent, // Add SidebarComponent to imports if it's standalone
   ],
-  providers: [ provideHttpClient(withFetch())],
-  bootstrap: []  
+  providers: [], // HttpClientModule auto-provides HttpClient; no need for extra providers
+  bootstrap: [], // Bootstrap the AppComponent
 })
-export class AppModule { }
+export class AppModule {}

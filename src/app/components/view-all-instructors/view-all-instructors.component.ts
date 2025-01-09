@@ -14,10 +14,9 @@ export class ViewAllInstructorsComponent implements OnInit {
   instructors: any[] = [];
   filteredInstructors: any[] = [];
   searchQuery: string = '';
-  apiUrl = 'http://localhost:3000/instructors'; // JSON server API endpoint
-
+  profilesApiUrl = 'http://localhost:3000/profiles'; // JSON server API endpoint
   isEditing: boolean = false;
-  selectedInstructor: any = null;
+  selectedInstructor: any = null; // Declare selectedInstructor for editing
 
   constructor(private http: HttpClient) {}
 
@@ -25,14 +24,11 @@ export class ViewAllInstructorsComponent implements OnInit {
     this.fetchInstructors();
   }
 
-  /**
-   * Fetches instructor data from the backend
-   */
   fetchInstructors(): void {
-    this.http.get<any[]>(this.apiUrl).subscribe(
+    this.http.get<any[]>(this.profilesApiUrl).subscribe(
       (data) => {
-        this.instructors = data;
-        this.filteredInstructors = data;
+        this.instructors = data.filter(profile => profile.role === 'instructor');
+        this.filteredInstructors = this.instructors;
       },
       (error) => {
         console.error('Error fetching instructors:', error);
@@ -40,9 +36,6 @@ export class ViewAllInstructorsComponent implements OnInit {
     );
   }
 
-  /**
-   * Filters instructors based on search query
-   */
   filterByDetails(): void {
     const query = this.searchQuery.toLowerCase();
     this.filteredInstructors = this.instructors.filter((instructor) => {
@@ -57,21 +50,15 @@ export class ViewAllInstructorsComponent implements OnInit {
     }
   }
 
-  /**
-   * Enables editing mode for a selected instructor
-   */
   editInstructor(instructor: any): void {
     this.isEditing = true;
-    this.selectedInstructor = { ...instructor }; // Clone the instructor object
+    this.selectedInstructor = { ...instructor }; // Clone the instructor object for editing
   }
 
-  /**
-   * Updates the instructor data
-   */
   updateInstructor(): void {
     if (this.selectedInstructor) {
       const updatedInstructor = this.selectedInstructor;
-      this.http.put(`${this.apiUrl}/${updatedInstructor.id}`, updatedInstructor).subscribe(
+      this.http.put(`${this.profilesApiUrl}/${updatedInstructor.id}`, updatedInstructor).subscribe(
         () => {
           const index = this.instructors.findIndex((inst) => inst.id === updatedInstructor.id);
           if (index > -1) {
@@ -79,17 +66,16 @@ export class ViewAllInstructorsComponent implements OnInit {
             this.filteredInstructors = [...this.instructors];
           }
           this.cancelEdit();
+          alert('Instructor updated successfully.');
         },
         (error) => {
           console.error('Error updating instructor:', error);
+          alert('Failed to update instructor.');
         }
       );
     }
   }
 
-  /**
-   * Cancels the editing mode
-   */
   cancelEdit(): void {
     this.isEditing = false;
     this.selectedInstructor = null;

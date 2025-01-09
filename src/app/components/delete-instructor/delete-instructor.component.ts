@@ -11,28 +11,26 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule, HttpClientModule],
 })
 export class DeleteInstructorComponent implements OnInit {
-  instructors: any[] = [];
-  instructorsApiUrl = 'http://localhost:3000/instructors';
+  profiles: any[] = [];
   profilesApiUrl = 'http://localhost:3000/profiles';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.loadInstructors();
+    this.loadProfiles();
   }
 
-  loadInstructors(): void {
-    this.http.get<any[]>(this.instructorsApiUrl).subscribe((data) => {
-      this.instructors = data;
+  loadProfiles(): void {
+    this.http.get<any[]>(this.profilesApiUrl).subscribe((data) => {
+      this.profiles = data.filter(profile => profile.role === 'instructor');
     });
   }
 
   deleteInstructor(id: number): void {
     if (confirm('Are you sure you want to delete this instructor?')) {
-      this.http.delete(`${this.instructorsApiUrl}/${id}`).subscribe({
+      this.http.delete(`${this.profilesApiUrl}/${id}`).subscribe({
         next: () => {
-          this.removeInstructorFromProfiles(id);
-          this.instructors = this.instructors.filter((instructor) => instructor.id !== id);
+          this.profiles = this.profiles.filter((profile) => profile.id !== id.toString());
           alert('Instructor deleted successfully!');
         },
         error: (err) => {
@@ -41,18 +39,5 @@ export class DeleteInstructorComponent implements OnInit {
         },
       });
     }
-  }
-
-  private removeInstructorFromProfiles(id: number): void {
-    this.http.get<any>(this.profilesApiUrl).subscribe((profiles) => {
-      const updatedProfiles = {
-        ...profiles,
-        instructors: profiles.instructors.filter((instructor: any) => instructor.id !== id.toString()),
-      };
-      this.http.put(this.profilesApiUrl, updatedProfiles).subscribe(
-        () => console.log('Instructor profile removed successfully.'),
-        (error) => console.error('Error updating profiles:', error)
-      );
-    });
   }
 }
